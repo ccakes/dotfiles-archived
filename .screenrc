@@ -18,6 +18,7 @@ term xterm-256color
  
 # Cache 30000 lines for scroll back
 defscrollback 30000
- 
+
 hardstatus alwayslastline 
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
+

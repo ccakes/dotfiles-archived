@@ -1,3 +1,5 @@
 [user]
 	name = Cameron Daniel
 	email = cameron.daniel@megaport.com
+[http]
+	sslVerify = true
