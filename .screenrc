@@ -9,8 +9,8 @@ attrcolor b ".I"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
  
 # Enables use of shift-PgUp and shift-PgDn
-termcapinfo xterm|xterm-256color|xs|rxvt ti@:te@
- 
+termcapinfo xterm* ti@:te@
+
 # Erase background with current bg color
 defbce "on"
  
@@ -20,6 +20,6 @@ term xterm-256color
 # Cache 30000 lines for scroll back
 defscrollback 30000
 
-hardstatus alwayslastline 
-hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
+#hardstatus alwayslastline 
+#hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
 
