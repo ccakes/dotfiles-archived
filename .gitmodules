@@ -1,3 +1,0 @@
-[submodule ".vim/pack/ccakes/start/vim-airline"]
-	path = .vim/pack/ccakes/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline.git
