@@ -1,0 +1,11 @@
+-i 2      # indent is 2
+-ci 2     # continuation indent is 2
+-l 72
+-pt 2     # spacing in braces
+-bbt 1    # horizontal tightness for code block
+-bar      # curly braces on right (not left)
+-nsbl     # above for subs
+-cti 0    # closing brace position (no indent)
+-sot      # don't use newline for opening token
+-nsfs     # no semicolon space in for loops
+-nolq     # no un-indent long quoted strings

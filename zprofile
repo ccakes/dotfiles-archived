@@ -1,3 +1,6 @@
+export TERM=xterm-256color
+[ -n "$TMUX" ] && export TERM=screen-256color
+
 autoload -Uz compinit promptinit
 compinit
 promptinit
@@ -13,30 +16,37 @@ zle -N down-line-or-beginning-search
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init -)"
 
+# rakudobrew
+export PATH="$HOME/.rakudobrew/bin:$PATH"
+eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
+
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # pyenv
-#export PATH="$HOME/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
 
-# nvm (commented for startup time)
-#export NVM_DIR="/Users/cdaniel/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+# yarn
+export PATH="$HOME/.yarn/bin:$PATH"
 
-# lazy init z! (https://github.com/rupa/z)
-z() {
-    source ~/.z.sh
-    z "$@"
-}
+# init z! (https://github.com/rupa/z)
+source ~/.z.sh
+
+alias gg='git status -sb'
+export NVM_LAZY_LOAD=true
 
 # Antigen ZSH config
 source ~/.antigen.zsh
 antigen use oh-my-zsh
 antigen bundle git
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle lukechilds/zsh-nvm
 antigen apply
+
+# un-share history
+unsetopt share_history
 
 # Set prompt
 PROMPT='%{$FG[245]%}%n@%m %{$FG[172]%}λ %{$FG[067]%}%~/ %{$reset_color%}'
