@@ -1,6 +1,6 @@
 -i 2      # indent is 2
 -ci 2     # continuation indent is 2
--l 72
+-l 150
 -pt 2     # spacing in braces
 -bbt 1    # horizontal tightness for code block
 -bar      # curly braces on right (not left)

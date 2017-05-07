@@ -1,51 +1,37 @@
---recurse=yes
---totals=yes
---tag-relative=yes
+--recurse
+--totals
+--tag-relative=always
 --exclude=.git
 --exclude=.build
 --exclude=log
 --exclude=*.min.js
 --exclude=*.js.map
 --exclude=*.bak
-
 --exclude=*.html
 --exclude=*.vim
 
+--output-format=e-ctags
+
 --verbose=no
 
---langmap=perl:+.pod
---regex-perl=/use\s+constant\s+(\S+)\*?;/\1/constants/
---regex-perl=/package\s+([^;]+)\s*?;/\1/package,packages/
---regex-perl=/with\s+([^;]+)\s*?;/\1/w,role,roles/
---regex-perl=/extends\s+['"]([^'"]+)['"]\s*?;/\1/e,extends/
---regex-perl=/use\s+base\s+['"]([^'"]+)['"]\s*?;/\1/e,extends/
---regex-perl=/use\s+parent\s+['"]([^'"]+)['"]\s*?;/\1/e,extends/
---regex-perl=/Mojo::Base\s+['"]([^'"]+)['"]\s*?;/\1/e,extends/
---regex-perl=/^\s*?use\s+([^;]+)\s*?;/\1/u,use,uses/
---regex-perl=/^\s*?require\s+((\w|\:)+)/\1/r,require,requires/
---regex-perl=/^\s*?has\s+['"]?(\w+)['"]?/\1/a,attribute,attributes/
---regex-perl=/^\s*?\*(\w+)\s*?=/\1/a,alias,aliases/
---regex-perl=/->helper\(\s?['"]?(\w+)['"]?/\1/h,helper,helpers/
---regex-perl=/^\s*?our\s*?[\$@%](\w+)/\1/o,our,ours/
---regex-perl=/^\=head1\s+(.+)/\1/pod,Plain Old Documentation/
---regex-perl=/^\=head2\s+(.+)/-- \1/pod,Plain Old Documentation/
---regex-perl=/^\=head[3-5]\s+(.+)/---- \1/pod,Plain Old Documentation/
+#--languages=perl,perl6,c,d,javascript,css
+--languages=perl
 
---langdef=js
---langmap=js:.js
---regex-js=/[ \t. ]([A-Z][A-Z0-9._$]+)[ \t ]*=[ \t ]*[0-9"'\[\{]/\1/n,constant/
---regex-js=/([A-Za-z0-9._$]+)[ \t ]*=[ \t ]*\{/\1/o,object/
---regex-js=/['"]*([A-Za-z0-9_$]+)['"]*[ \t ]*:[ \t ]*\{/\1/o,object/
---regex-js=/([A-Za-z0-9._$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t ]*=[ \t ]*\{/\1\.\2/o,object/
---regex-js=/([A-Za-z0-9._$]+)\.prototype[ \t.= ]/\1/c,class/
---regex-js=/([A-Za-z0-9._$]+)[ \t ]*=[ \t ]*\(function\(\)/\1/c,class/
---regex-js=/['"]*([A-Za-z0-9_$]+)['"]*:[ \t ]*\(function\(\)/\1/c,class/
---regex-js=/var[ \t ]*([A-Za-z$][A-Za-z0-9_$()]+)[ \t ]*=[ \t ]*function[ \t ]*\(/\1/f,function/
---regex-js=/[ \t ]*function[ \t ]+([A-Za-z$][A-Za-z0-9_$]+)[ \t ]*\(([^)])\)/\1/f,function/
---regex-js=/[ \t ]*function[ \t ]* \*([A-Za-z$][A-Za-z0-9_$()]+)[ \t ]*\(/\1/f,function/
---regex-js=/['"]*([A-Za-z$][A-Za-z0-9_$]+)['"]*:[ \t ]*function[ \t ]*\(/\1/m,method/
---regex-js=/([A-Za-z$][A-Za-z0-9_$]+)[ \t ]*=[ \t ]*function[ \t ]*\(/\1/m,method/
---regex-js=/([A-Za-z0-9_$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t ]*=[ \t ]*function[ \t ]*\(/\2/m,method/
---regex-js=/([A-Za-z0-9._$]+)[ \t ]*=[ \t ]*\[/\1/a,array/
---regex-js=/['"]*([A-Za-z$][A-Za-z0-9_$]+)['"]*:[ \t ]*\[/\1/a,array/
---regex-js=/([A-Za-z0-9._$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t ]*=[ \t ]*\[/\1\.\2/a,array/
+--langmap=perl:+.pod
+--perl-kinds=psc
+#--regex-perl=/package[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/p,package,packages/
+#--regex-perl=/with[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/w,role,roles/
+#--regex-perl=/extends[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+#--regex-perl=/use[ \t]+base[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+#--regex-perl=/use[ \t]+parent[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+#--regex-perl=/^[ \t]*use[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/u,use,uses/
+#--regex-perl=/^[ \t]*require[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/r,require,requires/
+#--regex-perl=/^[ \t]*has[ \t]+['"]*([A-Za-z_+][A-Za-z0-9_]+)['"]*[ \t]+/\1/a,attribute,attributes/
+#--regex-perl=/^[ \t]*around[ \t]+['"]*([A-Za-z_][A-Za-z0-9_]+)['"]*[ \t]+/\1/x,around/
+#--regex-perl=/^[ \t]*\*([A-Za-z_][A-Za-z0-9:_]+)[ \t]+=/\1/l,alias,aliases/
+#--regex-perl=/^[ \t]*our[ \t]+([\$@%][A-Za-z_][A-Za-z0-9_]+)/\1/o,our,ours/
+#--regex-perl=/use[ \t]+constante[ \t]+['"]*([A-Za-z_][A-Za-z0-9_]+)['" \t]*/\1/c,constants/
+#--regex-perl=/^\=head1[ \t]+(.+)/\0/d,pod,Plain Old Documentation/
+#--regex-perl=/^\=head2[ \t]+(.+)/-- \1/d,pod,Plain Old Documentation/
+#--regex-perl=/^\=head[3-5][ \t]+(.+)/--- \1/d,pod,Plain Old Documentation/
+
