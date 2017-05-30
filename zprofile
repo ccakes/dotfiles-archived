@@ -41,9 +41,13 @@ export NVM_LAZY_LOAD=true
 source ~/.antigen.zsh
 antigen use oh-my-zsh
 antigen bundle git
+antigen bundle mollifier/cd-gitroot
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle lukechilds/zsh-nvm
 antigen apply
+
+# Aliases
+alias cdu="cd-gitroot"
 
 # un-share history
 unsetopt share_history
