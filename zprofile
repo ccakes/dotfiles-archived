@@ -1,3 +1,5 @@
+# vim: ai et ts=4 sts=4 ft=sh
+
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -16,10 +18,6 @@ zle -N down-line-or-beginning-search
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init -)"
 
-# rakudobrew
-export PATH="$HOME/.rakudobrew/bin:$PATH"
-eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
-
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -28,6 +26,15 @@ eval "$(rbenv init -)"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 
+# n (node)
+export N_PREFIX="$HOME/.n"
+export PATH="$HOME/.n/bin:$PATH"
+n 7.6.0
+
+# rakudobrew
+export PATH="$HOME/.rakudobrew/bin:$PATH"
+eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
+
 # yarn
 export PATH="$HOME/.yarn/bin:$PATH"
 
@@ -35,7 +42,6 @@ export PATH="$HOME/.yarn/bin:$PATH"
 source ~/.z.sh
 
 alias gg='git status -sb'
-export NVM_LAZY_LOAD=true
 
 # Antigen ZSH config
 source ~/.antigen.zsh
@@ -43,7 +49,7 @@ antigen use oh-my-zsh
 antigen bundle git
 antigen bundle mollifier/cd-gitroot
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle lukechilds/zsh-nvm
+antigen bundle mafredri/zsh-async
 antigen apply
 
 # Aliases
@@ -75,3 +81,4 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=white'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=white'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
 ZSH_HIGHLIGHT_STYLES[function]='fg=white'
+
