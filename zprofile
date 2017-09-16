@@ -29,7 +29,7 @@ eval "$(pyenv init -)"
 # n (node)
 export N_PREFIX="$HOME/.n"
 export PATH="$HOME/.n/bin:$PATH"
-n 7.6.0
+n 8.4.0
 
 # rakudobrew
 export PATH="$HOME/.rakudobrew/bin:$PATH"
