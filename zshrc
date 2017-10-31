@@ -35,12 +35,16 @@ n 8.4.0
 export PATH="$HOME/.rakudobrew/bin:$PATH"
 eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
 
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # yarn
 export PATH="$HOME/.yarn/bin:$PATH"
 
 # init z! (https://github.com/rupa/z)
 source ~/.z.sh
 
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 alias gg='git status -sb'
 
 # Antigen ZSH config
@@ -50,6 +54,7 @@ antigen bundle git
 antigen bundle mollifier/cd-gitroot
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mafredri/zsh-async
+antigen bundle djui/alias-tips
 antigen apply
 
 # Aliases

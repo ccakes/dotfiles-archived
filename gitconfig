@@ -17,3 +17,5 @@
     wsErrorHighlight = all
 [help]
     autocorrect = 5
+[core]
+	editor = nvim
