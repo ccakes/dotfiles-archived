@@ -14,33 +14,6 @@ zle -N down-line-or-beginning-search
 [[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" down-line-or-beginning-search
 
-# plenv
-export PATH="$HOME/.plenv/bin:$PATH"
-eval "$(plenv init -)"
-
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-# pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-
-# n (node)
-export N_PREFIX="$HOME/.n"
-export PATH="$HOME/.n/bin:$PATH"
-n 8.4.0
-
-# rakudobrew
-export PATH="$HOME/.rakudobrew/bin:$PATH"
-eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
-
-# rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# yarn
-export PATH="$HOME/.yarn/bin:$PATH"
-
 # init z! (https://github.com/rupa/z)
 source ~/.z.sh
 
@@ -87,3 +60,38 @@ ZSH_HIGHLIGHT_STYLES[alias]='fg=white'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
 ZSH_HIGHLIGHT_STYLES[function]='fg=white'
 
+#######################
+# Init lang envs
+[ -d "$HOME/.cargo" ] && export PATH="$HOME/.cargo/bin:$PATH" # rust
+[ -d "$HOME/.yarn" ] && export PATH="$HOME/.yarn/bin:$PATH" # yarn (not a lang..)
+
+# plenv
+if [ -d "$HOME/.plenv" ]; then
+  export PATH="$HOME/.plenv/bin:$PATH"
+  eval "$(plenv init -)"
+fi
+
+# rbenv
+if [ -d "$HOME/.rbenv" ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
+# pyenv
+if [ -d "$HOME/.pyenv" ]; then
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
+# n (node)
+if [ -d "$HOME/.n" ]; then
+  export N_PREFIX="$HOME/.n"
+  export PATH="$HOME/.n/bin:$PATH"
+  n 8.4.0
+fi
+
+# rakudobrew
+if [ -d "$HOME/.rakudobrew" ]; then
+  export PATH="$HOME/.rakudobrew/bin:$PATH"
+  eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
+fi
