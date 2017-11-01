@@ -2,7 +2,7 @@
 
 Simple dotfiles collection, primarily for me to quickly setup remote boxes with my settings but open to all.
 
-[Screenshot](https://i.imgur.com/zJny3xO.png)
+![Screenshot](https://i.imgur.com/zJny3xO.png)
 
 ## Installation
 
