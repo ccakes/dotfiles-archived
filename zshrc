@@ -1,5 +1,9 @@
 # vim: ai et ts=4 sts=4 ft=sh
 
+if [ -e $HOME/.proxyrc ]; then
+   . $HOME/.proxyrc
+fi
+
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -63,6 +67,7 @@ ZSH_HIGHLIGHT_STYLES[function]='fg=white'
 #######################
 # Init lang envs
 [ -d "$HOME/.cargo" ] && export PATH="$HOME/.cargo/bin:$PATH" # rust
+[ -d "$(rustc --print sysroot)/lib/rustlib/src/rust/src" ] && export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 [ -d "$HOME/.yarn" ] && export PATH="$HOME/.yarn/bin:$PATH" # yarn (not a lang..)
 
 # plenv
@@ -94,4 +99,13 @@ fi
 if [ -d "$HOME/.rakudobrew" ]; then
   export PATH="$HOME/.rakudobrew/bin:$PATH"
   eval "$(/Users/cdaniel/.rakudobrew/bin/rakudobrew init -)"
+fi
+
+# go lang
+if [ -d "$HOME/.go" ]; then
+  export GOPATH="${HOME}/.go"
+  export GOROOT="$(brew --prefix golang)/libexec"
+  export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+  test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
 fi
