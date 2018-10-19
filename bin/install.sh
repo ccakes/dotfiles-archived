@@ -50,7 +50,7 @@ check_files() {
 }
 
 check_depends() {
-  DEPENDS="curl git"
+  DEPENDS="curl git tico ag fzf"
   for dep in $DEPENDS; do
     if ! command -v $dep >/dev/null 2>&1; then
       echo "$dep missing and is required"
