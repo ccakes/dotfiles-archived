@@ -28,6 +28,7 @@ antigen use oh-my-zsh
 antigen bundle mollifier/cd-gitroot
 antigen bundle mafredri/zsh-async
 antigen bundle djui/alias-tips
+antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
 
 # Aliases
@@ -99,22 +100,46 @@ fi
 
 #################
 ## Prompt
-function prompt_flags {
-  RET=
+precmd() {
+  setopt localoptions noshwordsplit extended_glob null_glob
+  local -a prompt_parts
+  local -a flags
+
+  # Show user + host if SSH
+  (( ${+SSH_TTY} )) && prompt_parts+=('%{$FG[245]%}%n@%m')
+
+  prompt_parts+=('%{$FG[172]%}λ %{$FG[067]%}$(tico `dirs`)')
 
   # Add icon for direnv
-  (( ${+DIRENV_DIFF} )) && RET+="%{$FG[154]%}"
+  (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}")
 
   # Add icon for vaulted
   if (( ${+VAULTED_ENV} )); then
     EXP=$(date -ju -f '%FT%TZ' '$VAULTED_ENV_EXPIRATION' +'%s')
     [ $EXP -gt $(date -u +%s) ] && VCOL=112 || VCOL=124
-    RET+="%{$FG[$VCOL]%}"
+    flags+=("%{$FG[$VCOL]%}")
   fi
 
-  [ "$RET" != "" ] && RET=" $RET"
-  echo $RET
-}
+  # Git
+  # local gbranch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  local gitdir=$(echo (../)#.git)
+  if [ -d "$gitdir" ]; then
+    RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
+  else
+    unset RPROMPT
+  fi
 
-PROMPT='%{$FG[245]%}%n@%m %{$FG[172]%}λ %{$FG[067]%}$(tico `dirs`)$(prompt_flags) %{$reset_color%}'
-# RPROMPT='%{$FG[241]%}$(git_prompt_info)%{$reset_color%} $(git_prompt_status)%{$reset_color%}'
+  # Languages
+  [ -f "$( echo (../)#cpanfile(:a) )" ] && flags+=('%{$FG[242]%}')
+  [ -f "$( echo (../)#Cargo.toml(:a) )" ] && flags+=('%{$FG[242]%}')
+  [ -f "$( echo (../)#package.json(:a) )" ] && flags+=('%{$FG[242]%}')
+  [ -f "$( echo (../)#requirements.txt(:a) )" ] && flags+=('%{$FG[242]%}')
+  (( $#flags > 0 )) && prompt_parts+=(${(j::)flags})
+
+  prompt_parts+=('%{$reset_color%}')
+
+  PROMPT="$prompt_parts"
+
+  # PROMPT="${(j. .)preprompt_parts}"
+  # PROMPT+='%{$reset_color%}'
+}
