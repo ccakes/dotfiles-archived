@@ -1,8 +1,5 @@
 # vim: ai et ts=4 sts=4 ft=sh
 
-# Source ~/.proxyrc if it exists
-[ -e $HOME/.proxyrc ] && . $HOME/.proxyrc
-
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -33,7 +30,7 @@ antigen apply
 
 # Aliases
 alias cdu="cd-gitroot"
-alias gg='git status -sb'
+alias gg='git status -sbu'
 alias gd="git diff"
 alias gp="git push"
 
@@ -115,9 +112,17 @@ precmd() {
 
   # Add icon for vaulted
   if (( ${+VAULTED_ENV} )); then
-    EXP=$(date -ju -f '%FT%TZ' '$VAULTED_ENV_EXPIRATION' +'%s')
-    [ $EXP -gt $(date -u +%s) ] && VCOL=112 || VCOL=124
-    flags+=("%{$FG[$VCOL]%}")
+    EXP=$(date -ju -f '%FT%TZ' "$VAULTED_ENV_EXPIRATION" +'%s')
+    NOW=$(date -u +%s)
+    [[ $EXP -gt $NOW ]] && VCOL=112 || VCOL=124
+
+    # If we have <300 secs remaining, show that too
+    (( REM = $EXP - $NOW ))
+    if [[ $REM -gt 0 && $REM -lt 300 ]]; then
+      COUNTDOWN="${REM}s"
+    fi
+
+    flags+=("%{$FG[$VCOL]%}%{$FG[11]%}$COUNTDOWN")
   fi
 
   # Git
