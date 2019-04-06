@@ -102,13 +102,20 @@ precmd() {
   local -a prompt_parts
   local -a flags
 
+  # Feels like a hack, but is nice and dynamic.
+  local nexthop=$(/sbin/route get 131.115.0.1 2>/dev/null | grep gateway | awk '{print $2}')
+  if [ "${nexthop:0:2}" = "10" ]; then
+    source ~/.proxyrc
+  fi
+
   # Show user + host if SSH
   (( ${+SSH_TTY} )) && prompt_parts+=('%{$FG[245]%}%n@%m')
 
   prompt_parts+=('%{$FG[172]%}λ %{$FG[067]%}$(tico `dirs`)')
 
   # Add icon for direnv
-  (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}")
+  # (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}")
+  (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}c")
 
   # Add icon for vaulted
   if (( ${+VAULTED_ENV} )); then
@@ -119,27 +126,29 @@ precmd() {
     # If we have <300 secs remaining, show that too
     (( REM = $EXP - $NOW ))
     if [[ $REM -gt 0 && $REM -lt 300 ]]; then
-      COUNTDOWN="${REM}s"
+      COUNTDOWN=" ${REM}s"
     fi
 
-    flags+=("%{$FG[$VCOL]%}%{$FG[11]%}$COUNTDOWN")
+    # flags+=("%{$FG[$VCOL]%}%{$FG[11]%}$COUNTDOWN")
+    flags+=("%{$FG[$VCOL]%}v%{$FG[11]%}$COUNTDOWN")
   fi
 
   # Git
   # local gbranch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   local gitdir=$(echo (../)#.git)
   if [ -d "$gitdir" ]; then
-    RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
+    # RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
+    RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
   else
     unset RPROMPT
   fi
 
-  # Languages
-  [ -f "$( echo (../)#cpanfile(:a) )" ] && flags+=('%{$FG[242]%}')
-  [ -f "$( echo (../)#Cargo.toml(:a) )" ] && flags+=('%{$FG[242]%}')
-  [ -f "$( echo (../)#package.json(:a) )" ] && flags+=('%{$FG[242]%}')
-  [ -f "$( echo (../)#requirements.txt(:a) )" ] && flags+=('%{$FG[242]%}')
-  (( $#flags > 0 )) && prompt_parts+=(${(j::)flags})
+  # Languages (commented due to Kitty font issues)
+  # [ -f "$( echo (../)#cpanfile(:a) )" ] && flags+=('%{$FG[242]%}')
+  # [ -f "$( echo (../)#Cargo.toml(:a) )" ] && flags+=('%{$FG[242]%}')
+  # [ -f "$( echo (../)#package.json(:a) )" ] && flags+=('%{$FG[242]%}')
+  # [ -f "$( echo (../)#requirements.txt(:a) )" ] && flags+=('%{$FG[242]%}')
+  # (( $#flags > 0 )) && prompt_parts+=(${(j::)flags})
 
   prompt_parts+=('%{$reset_color%}')
 
