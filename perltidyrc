@@ -8,6 +8,8 @@
 -bar      # curly braces on right (not left)
 -nsbl     # above for subs
 -cti 0    # closing brace position (no indent)
+-csc
+-csci 20  # Add a comment for clarity at the end of a large block
 -sot      # don't use newline for opening token
 -nsfs     # no semicolon space in for loops
 -nolq     # no un-indent long quoted strings

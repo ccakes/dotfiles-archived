@@ -1,5 +1,6 @@
 # vim: ai et ts=4 sts=4 ft=sh
 
+export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -33,6 +34,7 @@ alias cdu="cd-gitroot"
 alias gg='git status -sbu'
 alias gd="git diff"
 alias gp="git push"
+alias keybase="$HOME/.go/bin/keybase -s https://api.keybase.io --standalone"
 
 alias cperl="carton exec -- perl"
 alias cprove="carton exec -- prove"
@@ -95,6 +97,12 @@ if [ -d "$HOME/.go" ]; then
   test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
 fi
 
+# postgres@11
+if [ -d "/usr/local/opt/postgresql@11/bin" ]; then
+  # Intentionally at the end so when we install pg12 I don't get all confused...
+  export PATH="$PATH:/usr/local/opt/postgresql@11/bin"
+fi
+
 #################
 ## Prompt
 precmd() {
@@ -103,9 +111,11 @@ precmd() {
   local -a flags
 
   # Feels like a hack, but is nice and dynamic.
-  local nexthop=$(/sbin/route get 131.115.0.1 2>/dev/null | grep gateway | awk '{print $2}')
-  if [ "${nexthop:0:2}" = "10" ]; then
+  local nexthop=$(/sbin/route -n get 131.115.0.1 2>/dev/null | grep gateway | awk '{print $2}')
+  if [ "${nexthop:0:5}" = "10.79" ]; then
     source ~/.proxyrc
+  else
+    unset HTTPS_PROXY HTTP_PROXY ALL_PROXY
   fi
 
   # Show user + host if SSH
@@ -114,8 +124,8 @@ precmd() {
   prompt_parts+=('%{$FG[172]%}λ %{$FG[067]%}$(tico `dirs`)')
 
   # Add icon for direnv
-  # (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}")
-  (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}c")
+  (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}")
+  # (( ${+DIRENV_DIFF} )) && flags+=("%{$FG[154]%}c")
 
   # Add icon for vaulted
   if (( ${+VAULTED_ENV} )); then
@@ -129,16 +139,16 @@ precmd() {
       COUNTDOWN=" ${REM}s"
     fi
 
-    # flags+=("%{$FG[$VCOL]%}%{$FG[11]%}$COUNTDOWN")
-    flags+=("%{$FG[$VCOL]%}v%{$FG[11]%}$COUNTDOWN")
+    flags+=("%{$FG[$VCOL]%}%{$FG[11]%}$COUNTDOWN")
+    # flags+=("%{$FG[$VCOL]%}v%{$FG[11]%}$COUNTDOWN")
   fi
 
   # Git
   # local gbranch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   local gitdir=$(echo (../)#.git)
   if [ -d "$gitdir" ]; then
-    # RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
-    RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
+    RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
+    # RPROMPT=' %{$FG[242]%}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%{$reset_color%}'
   else
     unset RPROMPT
   fi
@@ -148,7 +158,7 @@ precmd() {
   # [ -f "$( echo (../)#Cargo.toml(:a) )" ] && flags+=('%{$FG[242]%}')
   # [ -f "$( echo (../)#package.json(:a) )" ] && flags+=('%{$FG[242]%}')
   # [ -f "$( echo (../)#requirements.txt(:a) )" ] && flags+=('%{$FG[242]%}')
-  # (( $#flags > 0 )) && prompt_parts+=(${(j::)flags})
+  (( $#flags > 0 )) && prompt_parts+=(${(j::)flags})
 
   prompt_parts+=('%{$reset_color%}')
 
@@ -157,3 +167,7 @@ precmd() {
   # PROMPT="${(j. .)preprompt_parts}"
   # PROMPT+='%{$reset_color%}'
 }
+
+eval $(thefuck --alias)
+
+[ -f "~/Library/Preferences/org.dystroy.broot/launcher/bash/br" ] && . ~/Library/Preferences/org.dystroy.broot/launcher/bash/br
