@@ -38,6 +38,8 @@ alias keybase="$HOME/.go/bin/keybase -s https://api.keybase.io --standalone"
 
 alias cperl="carton exec -- perl"
 alias cprove="carton exec -- prove"
+alias csqitch="carton exec -- sqitch"
+alias cmorbo="carton exec -- morbo"
 
 # Kind-of Aliases
 function gl {
@@ -104,6 +106,13 @@ if [ -d "/usr/local/opt/postgresql@11/bin" ]; then
 fi
 
 #################
+## Kitty
+if [[ -x "$(which dark-mode)" && $TERMINFO == *kitty* ]]; then
+  [ "$(dark-mode status)" = "on" ] && kitty @ set-colors -a /Users/cdaniel/Library/Preferences/kitty/kitty-themes/themes/PencilDark.conf || kitty @ set-colors -a /Users/cdaniel/Library/Preferences/kitty/kitty-themes/themes/PencilLight.conf
+fi
+
+
+#################
 ## Prompt
 precmd() {
   setopt localoptions noshwordsplit extended_glob null_glob
@@ -112,7 +121,7 @@ precmd() {
 
   # Feels like a hack, but is nice and dynamic.
   local nexthop=$(/sbin/route -n get 131.115.0.1 2>/dev/null | grep gateway | awk '{print $2}')
-  if [ "${nexthop:0:5}" = "10.79" ]; then
+  if [ "${nexthop:0:5}" = "10.79" ] || [ "${nexthop:0:5}" = "10.81" ]; then
     source ~/.proxyrc
   else
     unset HTTPS_PROXY HTTP_PROXY ALL_PROXY
@@ -170,4 +179,5 @@ precmd() {
 
 eval $(thefuck --alias)
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f "~/Library/Preferences/org.dystroy.broot/launcher/bash/br" ] && . ~/Library/Preferences/org.dystroy.broot/launcher/bash/br

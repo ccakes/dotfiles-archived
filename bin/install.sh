@@ -80,6 +80,9 @@ install_symlinks() {
 
   UPDATED=
   for f in $(find * -type f -not -path '.git/*' -not -path 'bin/*'); do
+    [ "$f" == "README.md" ] && continue
+    [ "$f" == "kitty/kitty.conf" ] && continue
+
     if { [ -h "$HOME/.${f}" ] && [ "$(readlinkf $HOME/.${f})" == "$(pwd)/$f" ]; }; then
       continue
     else
